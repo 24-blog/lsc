@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>議会的権力監視と手段の倫理性——論理構造図</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;500&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --ink:       #1a1a20;
+    --paper:     #f5f3ee;
+    --rule:      #c8c2b4;
+    --valid:     #2d5a3d;
+    --valid-bg:  #eaf3ec;
+    --invalid:   #7a2020;
+    --invalid-bg:#f5eaea;
+    --pivot:     #2a3a6e;
+    --pivot-bg:  #eaecf5;
+    --warn:      #8b5e00;
+    --warn-bg:   #fdf3dc;
+    --accent:    #4a5fa8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Noto Serif JP', serif;
+    font-size: 15px;
+    line-height: 1.8;
+    padding: 48px 24px 80px;
+  }
+
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  /* ── ヘッダー ── */
+  header {
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--rule);
+    padding: 28px 0 20px;
+    margin-bottom: 48px;
+  }
+  header .eyebrow {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .16em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    line-height: 1.5;
+  }
+  header .subtitle {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #666;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+  }
+
+  /* ── セクションラベル ── */
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* ── ブロック共通 ── */
+  .block {
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .block-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .block-body {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13.5px;
+    font-weight: 300;
+    line-height: 1.75;
+    color: #333;
+  }
+
+  /* ── 判定バッジ ── */
+  .badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 2px;
+    letter-spacing: .08em;
+    margin-bottom: 8px;
+  }
+  .badge.true  { background: var(--valid-bg);   color: var(--valid);   border: 1px solid #a8d0b0; }
+  .badge.false { background: var(--invalid-bg); color: var(--invalid); border: 1px solid #d0a0a0; }
+  .badge.warn  { background: var(--warn-bg);    color: var(--warn);    border: 1px solid #d0b060; }
+  .badge.pivot { background: var(--pivot-bg);   color: var(--pivot);   border: 1px solid #a0a8d8; }
+
+  /* ── セクション ── */
+  .section { margin-bottom: 48px; }
+
+  /* ── 矢印コネクタ ── */
+  .arrow {
+    text-align: center;
+    font-size: 20px;
+    color: var(--rule);
+    margin: 4px 0 12px;
+    line-height: 1;
+  }
+  .arrow.red { color: var(--invalid); }
+
+  /* ── 混同図 ── */
+  .axis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 8px;
+  }
+  .axis-cell {
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 14px 16px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+  }
+  .axis-cell .axis-head {
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 4px;
+    font-family: 'Noto Serif JP', serif;
+  }
+  .vs-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #999;
+    gap: 12px;
+    margin: 4px 0;
+  }
+  .vs-label::before,
+  .vs-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  /* ── 結論ブロック ── */
+  .conclusion {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 4px;
+    padding: 24px 24px;
+    margin-top: 8px;
+  }
+  .conclusion .c-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .12em;
+    color: #aaa;
+    margin-bottom: 10px;
+  }
+  .conclusion p {
+    font-size: 14.5px;
+    font-family: 'Noto Serif JP', serif;
+    line-height: 1.85;
+  }
+  .conclusion strong {
+    color: #d4c8a0;
+  }
+
+  /* ── フォールバック論理構造 ── */
+  .fallacy-box {
+    border-left: 3px solid var(--invalid);
+    padding-left: 16px;
+    margin: 12px 0;
+  }
+  .fallacy-box .f-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--invalid);
+    letter-spacing: .1em;
+    margin-bottom: 4px;
+  }
+  .fallacy-box p {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+  }
+
+  hr.thin {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 24px 0;
+  }
+
+  .footnote {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 11.5px;
+    font-weight: 300;
+    color: #888;
+    margin-top: 48px;
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+    line-height: 1.7;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="eyebrow">Logic Structure Chart</div>
+    <h1>議会的権力監視と手段の倫理性<br>——「解釈の余地」論の論理的限界</h1>
+    <div class="subtitle">野党の監視機能と不法手段の使用は、独立した二軸として審査されなければならない。</div>
+  </header>
+
+  <!-- SECTION 1: 争点の整理 -->
+  <div class="section">
+    <div class="section-label">§ 1 — 争点の明確化</div>
+
+    <div class="block" style="border-color: var(--pivot); background: var(--pivot-bg);">
+      <div class="badge pivot">PREMISE</div>
+      <div class="block-title">問われているのは「目的の正当性」ではない</div>
+      <div class="block-body">
+        野党による権力監視・追及が民主主義の要請であることは争いのない前提である。
+        争点は「追及という行為の政治的評価」ではなく、<strong>「追及に用いられた手段の倫理的適法性」</strong>である。
+        この二つを混同することが、以下で示す論理的誤謬の温床となる。
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: 反論の構造と誤謬 -->
+  <div class="section">
+    <div class="section-label">§ 2 — 「解釈の余地」論の構造的欠陥</div>
+
+    <div class="block">
+      <div class="badge pivot">CLAIM A（譲歩）</div>
+      <div class="block-title">権力監視は民主主義に不可欠である</div>
+      <div class="block-body">行政府への監視・牽制は議会制民主主義における野党の本質的役割であり、その活動を安易に制限することは民主主義の健全性を損なう。</div>
+    </div>
+    <div class="badge true" style="margin-left:20px;">TRUE ── 命題として成立</div>
+
+    <div class="arrow">↓</div>
+
+    <div class="block" style="border-color: var(--invalid);">
+      <div class="badge false">CLAIM B（推論）</div>
+      <div class="block-title">ゆえに、追及手段への批判は民主主義を損なう</div>
+      <div class="block-body">何が正当な権力監視で何が不当な議事妨害かは解釈次第であり、手段への批判は監視機能そのものへの制限に等しい。</div>
+    </div>
+    <div class="badge false" style="margin-left:20px;">FALSE ── 論理的飛躍</div>
+
+    <div class="arrow red">↓</div>
+
+    <div class="fallacy-box">
+      <div class="f-label">FALLACY — 二軸の混同（Conflation of Independent Axes）</div>
+      <p>
+        「目的の正当性」と「手段の倫理性」は論理的に独立した審査軸である。
+        前者が真であることは後者の免責を一切含意しない。
+        「正当な目的のためなら手段を問わない」は目的論的誤謬（ends-justify-means fallacy）であり、
+        普遍倫理においても法体系においても成立しない。
+      </p>
+    </div>
+  </div>
+
+  <!-- SECTION 3: 独立二軸の図示 -->
+  <div class="section">
+    <div class="section-label">§ 3 — 審査の二軸分離</div>
+
+    <div class="block">
+      <div class="block-body" style="margin-bottom:8px;">追及行為は以下の二軸を<strong>独立かつ同時に</strong>審査しなければならない。</div>
+      <div class="axis-grid">
+        <div class="axis-cell">
+          <div class="axis-head">軸 I ── 目的の政治的正当性</div>
+          権力監視・情報公開・民意反映……いずれも民主主義的に正当。
+        </div>
+        <div class="axis-cell">
+          <div class="axis-head">軸 II ── 手段の普遍倫理的適法性</div>
+          虚偽情報・ディープフェイク……普遍倫理に反し、独立して不当と評価される。
+        </div>
+      </div>
+      <div class="vs-label" style="margin-top:12px;">軸Iの判定は軸IIの判定に影響しない</div>
+    </div>
+
+    <div class="block" style="margin-top: 0;">
+      <div class="block-body">
+        類比：詐欺や偽証が「目的が正当ならば許容されうる」とならないのと同一構造。
+        手段が独立した倫理規範を侵害している場合、目的の評価は免責事由にならない。
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: 「解釈の余地」論の機能的問題 -->
+  <div class="section">
+    <div class="section-label">§ 4 — 「解釈の余地」論の機能的帰結</div>
+
+    <div class="block">
+      <div class="badge warn">STRUCTURAL RISK</div>
+      <div class="block-title">懐疑論の悪用（Weaponized Ambiguity）</div>
+      <div class="block-body">
+        「何が正当か不当かは解釈次第」という言説は、境界線が真に曖昧な事例に対する正当な留保である。
+        しかし、これを明白に普遍倫理違反な手段（虚偽・偽造・詐欺的操作）に適用することは、
+        曖昧性を人工的に生成し、不法手段を延命させる技法として機能する。
+      </div>
+    </div>
+
+    <div class="arrow">↓</div>
+
+    <div class="block" style="border-color: var(--invalid);">
+      <div class="badge false">CONSEQUENCE</div>
+      <div class="block-title">恣意的妨害への無限免責</div>
+      <div class="block-body">
+        この論法を有効とした場合、いかなる反社会的手段も政治的目的に包んで「解釈問題」に転化させることで
+        批判を無効化できる。歯止めが論理的に成立しなくなる。
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: ディープフェイク固有の問題 -->
+  <div class="section">
+    <div class="section-label">§ 5 — ディープフェイクが侵害する民主主義の前提条件</div>
+
+    <div class="block" style="border-color: var(--valid);">
+      <div class="badge true">PRECONDITION</div>
+      <div class="block-title">民主的審議は「事実の共有可能性」を前提とする</div>
+      <div class="block-body">
+        権力監視が民主主義的機能として成立するのは、審議の場に事実が存在し、
+        事実に基づいた判断が可能であるという基盤があってこそである。
+      </div>
+    </div>
+
+    <div class="arrow">↓</div>
+
+    <div class="block" style="border-color: var(--invalid);">
+      <div class="badge false">CONTRADICTION</div>
+      <div class="block-title">ディープフェイクはその前提を破壊する</div>
+      <div class="block-body">
+        虚偽映像・音声による追及は「監視行為」ではなく「審議空間の破壊行為」である。
+        権力監視を目的と称しながら、権力監視が成立するための条件そのものを掘り崩す——
+        目的と手段が自己矛盾している。
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6: 結論 -->
+  <div class="section">
+    <div class="section-label">§ 6 — 結論</div>
+
+    <div class="conclusion">
+      <div class="c-label">CONCLUSION</div>
+      <p>
+        野党の権力監視機能は民主主義の要請であり、その価値は失われない。<br>
+        しかし、<strong>手段が普遍倫理に反する場合、目的の正当性はいかなる免責も与えない。</strong><br><br>
+        「解釈の余地がある」という留保は、境界線が真に曖昧な事例にのみ有効であり、
+        虚偽情報・ディープフェイクのような<strong>独立した倫理違反を内包する手段</strong>には適用されない。<br><br>
+        目的と手段の二軸を分離して審査することなく「解釈次第」に帰着させる論法は、
+        不法手段に対する批判を永続的に無効化する構造を持ち、
+        民主主義の防衛論を民主主義の破壊に援用する<strong>論理的転倒</strong>である。
+      </p>
+    </div>
+  </div>
+
+  <div class="footnote">
+    本図は「目的の正当性」と「手段の倫理性」が独立した審査軸であるという論理原則に基づき構成されている。
+    本論の核心は特定の政治的立場の擁護ではなく、政治的言説における論理構造の堅牢性を問うものである。
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-[![License](https://img.shields.io/github/license/24-blog/lsc)](LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-greeeen)](LICENSE)
 
 
 ⚠️COPYRIGHT<br>
